@@ -11,7 +11,7 @@ class JsonPersisterSpec extends StaminaJsonSpec {
 
   val v1CartCreatedPersisterWithBackwardMigration = persister[CartCreatedV1](
     "cart-created",
-    from[V1].backFrom[V2](identity)
+    from[V1].andBackFrom[V2](identity)
   )
 
   val v2CartCreatedPersister = persister[CartCreatedV2, V2](
@@ -32,7 +32,7 @@ class JsonPersisterSpec extends StaminaJsonSpec {
   val v3CartCreatedPersisterWithBackwardMigration = persister[CartCreatedV3, V3](
     "cart-created",
     migratorV3
-      .backFrom[V4](_.update(('cart / 'items / * / 'name.?) ! setOrUpdateField[String]("unknown")(identity)))
+      .andBackFrom[V4](_.update(('cart / 'items / * / 'name.?) ! setOrUpdateField[String]("unknown")(identity)))
   )
 
   val v4SimpleCartCreatedPersister = persister[CartCreatedV4, V4](
